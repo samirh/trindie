@@ -48,5 +48,11 @@
 		</property>
 	</bean>
 	
+	<bean id="AccountService" class="com.trindie.account.AccountServiceImpl">
+		<property name="accountDAO">
+			<ref bean="AccountDAO" />
+		</property>
+	</bean>
+	
 		
 </beans>
