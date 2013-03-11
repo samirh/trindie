@@ -1,50 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+	http://www.springframework.org/context
+	http://www.springframework.org/context/spring-context-3.1.xsd">
 	
 <!-- 	Root Context: defines shared resources visible to all other web components -->
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+    		<list>
+    			<bean class="org.springframework.core.io.ClassPathResource">
+    				<constructor-arg name="path" value="com/trindie/properties/jdbc.properties"/>
+    			</bean>
+    			<bean class="org.springframework.core.io.ClassPathResource">
+    				<constructor-arg name="path" value="com/trindie/properties/aws.properties"/>
+    			</bean>
+			</list>
+  		</property>
+  		<property name="ignoreUnresolvablePlaceholders" value="true"/>
+	</bean>
 	<bean id="AWSConfiguration" class="com.trindie.configuration.AWSConfiguration" />
 	<bean id="AWSCredentials" class="com.amazonaws.auth.BasicAWSCredentials">
 		<constructor-arg name="accessKey">
-			<value>#{AWSConfiguration.AWSAccessKey}</value>
+			<value>${aws.accessKey}</value>
 		</constructor-arg>
 		<constructor-arg name="secretKey">
-			<value>#{AWSConfiguration.AWSSecretAccessKey}</value>
+			<value>${aws.secretAccessKey}</value>
 		</constructor-arg>
 	</bean>
-	<bean id="DynamoDBClient" class="com.amazonaws.services.dynamodb.AmazonDynamoDBClient">
-		<constructor-arg>
-			<ref bean="AWSCredentials"/>
-		</constructor-arg>
-	</bean>
-	<bean id="DynamoDBMapper" class="com.amazonaws.services.dynamodb.datamodeling.DynamoDBMapper">
-		<constructor-arg>
-			<ref bean="DynamoDBClient" />
-		</constructor-arg>
-	</bean>
-	<bean id="AccountDynamoDBTableNameOverride" class="com.amazonaws.services.dynamodb.datamodeling.DynamoDBMapperConfig.TableNameOverride">
-		<constructor-arg>
-			<value>#{AWSConfiguration.AccountTableName}</value>
-		</constructor-arg>
-	</bean>
-	<bean id="AccountDynamoDBMapperConfig" class="com.amazonaws.services.dynamodb.datamodeling.DynamoDBMapperConfig">
-		<constructor-arg>
-			<value type="com.amazonaws.services.dynamodb.datamodeling.DynamoDBMapperConfig.SaveBehavior">UPDATE</value>
-		</constructor-arg>
-		<constructor-arg>
-			<value type="com.amazonaws.services.dynamodb.datamodeling.DynamoDBMapperConfig.ConsistentReads">CONSISTENT</value>
-		</constructor-arg>
-		<constructor-arg>
-			<ref bean="AccountDynamoDBTableNameOverride" />
- 		</constructor-arg>
-	</bean>
-	<bean id="AccountDAO" class="com.trindie.account.DynamoDBAccountDAO">
-		<property name="mapper">
-			<ref bean="DynamoDBMapper"/>
-		</property>
-		<property name="mapperConfig">
-			<ref bean="AccountDynamoDBMapperConfig"/>
+
+	<bean id="AccountDAO" class="com.trindie.account.HibernateAccountDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory"/>
 		</property>
 	</bean>
 	
@@ -53,6 +41,7 @@
 			<ref bean="AccountDAO" />
 		</property>
 	</bean>
+	<import resource="data.xml" />
 	
 		
 </beans>

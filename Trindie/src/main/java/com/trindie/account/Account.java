@@ -1,11 +1,18 @@
 package com.trindie.account;
 
-public interface Account {
-	public String getAccountId();
+import java.sql.Date;
+
+import com.trindie.common.IDable;
+
+
+public interface Account extends IDable {
 	public String getEmail();
-	public String getFirstName();
-	public String getLastName();
 	public void setEmail(String email);
-	public void setFirstName(String firstName);
-	public void setLastName(String lastName);
+	public String getUserName();
+	public void setUserName(String userName);
+	String getPassword();
+	void setPassword(String password);
+	public Date getCreatedDate();
+	public void setCreatedDate(Date date);
+	
 }

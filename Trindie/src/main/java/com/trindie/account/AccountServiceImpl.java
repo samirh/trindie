@@ -26,7 +26,7 @@ public class AccountServiceImpl implements AccountService{
 
 	@Override
 	public void removeAccount(Account account) {
-		accountDAO.delete(account.getAccountId());
+		accountDAO.delete(account.getID());
 	}
 	
 
