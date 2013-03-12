@@ -1,5 +1,6 @@
 package com.trindie.account;
 
+import java.net.Proxy.Type;
 import java.sql.Date;
 
 import javax.persistence.Column;
@@ -10,16 +11,27 @@ import javax.persistence.Inheritance;
 import javax.persistence.Table;
 import javax.persistence.InheritanceType;
 import javax.persistence.GenerationType;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.Version;
 @Entity
 @Table(name = "ACCOUNT")
-@Inheritance(strategy=InheritanceType.JOINED)
 public class HibernateAccount implements Account {
 	private long ID;
 	private String email;
 	private String userName;
 	private String password;
 	private Date createdDate;
-	
+	private AccountType type;
+	private int version;
+	public void setVersion(int version){
+		this.version = version;
+	}
+	@Version
+	@Column(name="VERSION")
+	public int getVersion(){
+		return this.version;
+	}
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ACCOUNT_ID")
@@ -27,6 +39,10 @@ public class HibernateAccount implements Account {
 	public long getID() {
 		return ID;
 	}
+	public void setID(long id){
+		this.ID = id;
+	}
+	
 	@Column(name = "EMAIL")
 	@Override
 	public String getEmail() {
@@ -53,9 +69,10 @@ public class HibernateAccount implements Account {
 	@Override
 	public void setPassword(String password) {
 		this.password = password;
-	}
+	}/*
 	@Column(name = "DATE")
-	@Override
+	@Temporal(TemporalType.DATE)
+	@Override*/
 	public Date getCreatedDate() {
 		return createdDate;
 	}
@@ -63,9 +80,14 @@ public class HibernateAccount implements Account {
 	public void setCreatedDate(Date date) {
 		this.createdDate = date;
 	}
+	@Column(name = "TYPE")
 	@Override
-	public void setID(long id) {
-		// TODO Auto-generated method stub
-		
+	public AccountType getAccountType() {
+		return type;
 	}
+	@Override
+	public void setAccountType(AccountType accountType) {
+		this.type = accountType;
+	}
+	
 }

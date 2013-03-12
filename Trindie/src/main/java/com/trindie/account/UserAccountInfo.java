@@ -1,9 +1,9 @@
 package com.trindie.account;
+import com.trindie.common.IDable;
 
-public interface UserAccount extends Account {
+public interface UserAccountInfo extends IDable {
 	public String getFirstName();
-	public String getLastName();
-	public void setEmail(String email);
 	public void setFirstName(String firstName);
+	public String getLastName();
 	public void setLastName(String lastName);
 }

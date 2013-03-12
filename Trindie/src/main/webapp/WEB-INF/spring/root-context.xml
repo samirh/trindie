@@ -29,7 +29,8 @@
 			<value>${aws.secretAccessKey}</value>
 		</constructor-arg>
 	</bean>
-
+	
+	<import resource="data.xml" />
 	<bean id="AccountDAO" class="com.trindie.account.HibernateAccountDAO">
 		<property name="sessionFactory">
 			<ref bean="sessionFactory"/>
@@ -41,7 +42,6 @@
 			<ref bean="AccountDAO" />
 		</property>
 	</bean>
-	<import resource="data.xml" />
 	
 		
 </beans>

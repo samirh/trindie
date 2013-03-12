@@ -1,5 +1,7 @@
 package com.trindie.controllers;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import org.slf4j.Logger;
@@ -12,7 +14,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.trindie.account.Account;
 import com.trindie.account.AccountService;
-import com.trindie.account.DynamoDBAccount;
 
 @Controller
 @RequestMapping(value="/account")
@@ -25,11 +26,13 @@ public class AccountController {
 	@RequestMapping(value="/sayhi", method = RequestMethod.GET)
 	@ResponseBody
 	public Account sayHi(){
-		DynamoDBAccount x = new DynamoDBAccount();
-		x.setEmail("samir8@gmail.com");
-		x.setFirstName("Samir");
-		x.setLastName("Hegde");
-		x.setAccountId(UUID.randomUUID().toString());
+		Map<String,String> pi = new HashMap<String,String>();
+		pi.put(AccountService.EMAIL,"samir8@gmail.com");
+		pi.put(AccountService.FIRST_NAME,"Samir");
+		pi.put(AccountService.LAST_NAME, "Hegde");
+		pi.put(AccountService.PASSWORD, "oadjaskdaskd");
+		pi.put(AccountService.USERNAME, "samix");
+		Account x = accountService.createUserAccount(pi);
 		return x;
 	}
 	

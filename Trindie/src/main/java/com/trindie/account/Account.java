@@ -14,5 +14,6 @@ public interface Account extends IDable {
 	void setPassword(String password);
 	public Date getCreatedDate();
 	public void setCreatedDate(Date date);
-	
+	public AccountType getAccountType();
+	public void setAccountType(AccountType accountType);	
 }
