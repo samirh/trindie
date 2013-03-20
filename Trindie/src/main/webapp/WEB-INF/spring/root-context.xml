@@ -37,9 +37,18 @@
 		</property>
 	</bean>
 	
+	<bean id="ConnectionDAO" class="com.trindie.connection.HibernateConnectionDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory"/>
+		</property>
+	</bean>
+	
 	<bean id="AccountService" class="com.trindie.account.AccountServiceImpl">
 		<property name="accountDAO">
 			<ref bean="AccountDAO" />
+		</property>
+		<property name="connectionDAO">
+			<ref bean="ConnectionDAO"/>
 		</property>
 	</bean>
 	

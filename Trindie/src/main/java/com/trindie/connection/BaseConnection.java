@@ -2,11 +2,13 @@ package com.trindie.connection;
 
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
@@ -14,22 +16,21 @@ import com.trindie.common.Connection;
 import com.trindie.common.IDable;
 @Entity
 @Table(name="CONNECTION")
-public class BaseConnection<K extends IDable,V extends IDable> implements Connection<K,V>{
+@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name="CONNECTION_TYPE",discriminatorType=DiscriminatorType.STRING)
+public abstract class BaseConnection<K extends IDable,V extends IDable> implements Connection<K,V>{
 	private long primaryObjectID;	
 	private long secondaryObjectID;
 	private long id;
 	private int version;
-	private ConnectionType type;
-	public BaseConnection(ConnectionType type,K primaryObject, V secondaryObject){
+	public BaseConnection(K primaryObject, V secondaryObject){
 		this.primaryObjectID = primaryObject.getID();
 		this.secondaryObjectID = secondaryObject.getID();
-		this.type = type;
 	}
 	
-	public BaseConnection(ConnectionType type,long primaryObjectID, long secondaryObjectID){
+	public BaseConnection(long primaryObjectID, long secondaryObjectID){
 		this.primaryObjectID = primaryObjectID;
 		this.secondaryObjectID = secondaryObjectID;
-		this.type = type;
 	}
 	
 	@Id
@@ -39,6 +40,9 @@ public class BaseConnection<K extends IDable,V extends IDable> implements Connec
 		return id;
 	}
 	
+	public void setID(long id){
+		this.id = id;
+	}
 	public void setPrimaryObjectID(long primaryObject){
 		this.primaryObjectID = primaryObject;
 	}
@@ -61,13 +65,9 @@ public class BaseConnection<K extends IDable,V extends IDable> implements Connec
 	public void setVersion(int version){
 		this.version = version;
 	}
-	@Column(name="CONNECTION_TYPE")
-	@Override
-	public ConnectionType getConnectionType() {
-		return type;
-	}
-	public void setConnectionType(ConnectionType connectionType){
-		this.type = connectionType;
-	}
 	
+	public String toString(){
+		String s = getClass() +" "+getID()+ " between "+getPrimaryObjectID()+" and "+getSecondaryObjectID();
+		return s;
+	}
 }

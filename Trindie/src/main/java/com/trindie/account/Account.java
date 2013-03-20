@@ -1,6 +1,6 @@
 package com.trindie.account;
 
-import java.sql.Date;
+import java.util.Date;
 
 import com.trindie.common.IDable;
 

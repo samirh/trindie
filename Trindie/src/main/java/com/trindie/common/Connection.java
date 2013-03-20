@@ -8,5 +8,4 @@ public interface Connection<K extends IDable,V extends IDable> extends IDable {
 	public void setPrimaryObjectID(long primaryObjectID);
 	public long getSecondaryObjectID();
 	public void setSecondaryObjectID(long secondaryObjectID);
-	public ConnectionType getConnectionType();
 }

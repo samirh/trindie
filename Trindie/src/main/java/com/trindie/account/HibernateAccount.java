@@ -1,7 +1,7 @@
 package com.trindie.account;
 
 import java.net.Proxy.Type;
-import java.sql.Date;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -69,10 +69,10 @@ public class HibernateAccount implements Account {
 	@Override
 	public void setPassword(String password) {
 		this.password = password;
-	}/*
-	@Column(name = "DATE")
+	}
+	@Column(name = "CREATED_DATE")
 	@Temporal(TemporalType.DATE)
-	@Override*/
+	@Override
 	public Date getCreatedDate() {
 		return createdDate;
 	}
@@ -80,7 +80,7 @@ public class HibernateAccount implements Account {
 	public void setCreatedDate(Date date) {
 		this.createdDate = date;
 	}
-	@Column(name = "TYPE")
+	@Column(name = "ACCOUNT_TYPE")
 	@Override
 	public AccountType getAccountType() {
 		return type;

@@ -2,7 +2,6 @@ aws.properties
 jdbc.properties
 .metadata/*
 *.log
-*.sql
 *DS_STORE
 .DS_STORE?
 ._*

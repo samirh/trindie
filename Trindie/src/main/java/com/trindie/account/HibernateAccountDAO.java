@@ -2,9 +2,9 @@ package com.trindie.account;
 
 import javax.sql.DataSource;
 
-import org.apache.log4j.Logger;
 import org.hibernate.SessionFactory;
-import org.slf4j.impl.Log4jLoggerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class HibernateAccountDAO implements AccountDAO<HibernateAccount,HibernateUserAccountInfo> {
 	SessionFactory sessionFactory;
-	private Logger log = Logger.getLogger(HibernateAccountDAO.class);
+	private Logger log = LoggerFactory.getLogger(HibernateAccountDAO.class);
 	private final static String READ_ACCOUNT_BY_ID = "select distinct c from Account a  where c.ID = :id";
 	private final static String READ_USER_ACCOUNT_INFO_BY_ID = "select distinct c from UserAccountInfo a  where c.ID = :id";
 	public void setSessionFactory(SessionFactory sessionFactory){
